@@ -1,0 +1,186 @@
+swagger: "2.0"
+info:
+  description: Vehicle inspection backend APIs
+  version: 1.0.0
+  title: Vehicle Inspection Backend
+  # put the contact info for your development or API team
+  contact:
+    email: mpbcurtis@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+  - name: anyone
+    description: Operations available to anyone
+
+paths:
+  /v1/users:
+    get:
+      tags:
+        - anyone
+      summary: returns all users
+      operationId: GetUsers
+      description: |
+        Get all users
+      produces:
+        - application/json
+
+      responses:
+        200:
+          description: All users
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: bad input parameter
+    post:
+      tags:
+        - anyone
+      summary: creates a new user
+      operationId: CreateUser
+      description: creates a new user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: User
+          description: new user to add
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        201:
+          description: user is created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+  /v1/users/{ID}:
+    get:
+      tags:
+        - anyone
+      summary: returns specific user
+      operationId: GetUser
+      description: |
+        Get all users
+      parameters:
+        - name: ID
+          in: path
+          type: integer
+          required: true
+      produces:
+        - application/json
+
+      responses:
+        200:
+          description: specific user
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        400:
+          description: bad input parameter
+    delete:
+      tags:
+        - anyone
+      summary: deletes a specific user
+      operationId: DeleteUser
+      description: deletes a specific user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: User
+          description: new user to add
+          schema:
+            $ref: "#/definitions/User"
+        - name: ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        201:
+          description: user is created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+    put:
+      tags:
+        - anyone
+      summary: updates a specific user
+      operationId: UpdateUser
+      description: updates a specific user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: User
+          description: new user to add
+          schema:
+            $ref: "#/definitions/User"
+        - name: ID
+          in: path
+          type: integer
+          required: true
+      responses:
+        201:
+          description: user is created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+definitions:
+  User:
+    type: object
+    required:
+      - ID
+      - emp_nbr
+      - hr_loc_cd
+      - dept_nbr
+      - job_cd
+      - emp_first_name
+      - emp_last_nm
+      - user_id_nbr
+      - job_nm
+    properties:
+      ID:
+        type: integer
+        format: number
+        example: 16
+      hr_loc_cd:
+        type: string
+        example: FXFGBO
+      dept_nbr:
+        type: string
+        example: 11005644
+      job_cd:
+        type: string
+        example: 61161
+      emp_first_name:
+        type: string
+        example: Michael
+      emp_last_nm:
+        type: string
+        example: Curtis
+      user_id_nbr:
+        type: string
+        example: 2466727
+      job_nm:
+        type: string
+        example: Wt Dim Validation Specialist
+
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /TomatoPals/vehicle_inspection_backend/1.0.0
+schemes:
+  - https
