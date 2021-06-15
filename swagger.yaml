@@ -1,194 +1,119 @@
-swagger: "2.0"
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/TomatoPals/PomoDuck-Go/1.0.0
 info:
-  description: Vehicle inspection backend APIs
-  version: 1.0.0
-  title: Vehicle Inspection Backend
-  # put the contact info for your development or API team
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
   contact:
-    email: mpbcurtis@gmail.com
-
+    email: you@your-company.com
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-
-# tags are used for organizing operations
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
-  - name: anyone
-    description: Operations available to anyone
-
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
 paths:
-  /v1/users:
+  /inventory:
     get:
       tags:
-        - anyone
-      summary: returns all users
-      operationId: GetUsers
+        - developers
+      summary: searches inventory
+      operationId: searchInventory
       description: |
-        Get all users
-      produces:
-        - application/json
-
-      responses:
-        200:
-          description: All users
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up inventory
+          required: false
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/User"
-        400:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+        '400':
           description: bad input parameter
     post:
       tags:
-        - anyone
-      summary: creates a new user
-      operationId: CreateUser
-      description: creates a new user
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: User
-          description: new user to add
-          schema:
-            $ref: "#/definitions/User"
+        - admins
+      summary: adds an inventory item
+      operationId: addInventory
+      description: Adds an item to the system
       responses:
-        201:
-          description: user is created
-        400:
-          description: invalid input, object invalid
-        409:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
           description: an existing item already exists
-  /v1/users/{ID}:
-    get:
-      tags:
-        - anyone
-      summary: returns specific user
-      operationId: GetUser
-      description: |
-        Get all users
-      parameters:
-        - name: ID
-          in: path
-          type: integer
-          required: true
-      produces:
-        - application/json
-
-      responses:
-        200:
-          description: specific user
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/User"
-        400:
-          description: bad input parameter
-    delete:
-      tags:
-        - anyone
-      summary: deletes a specific user
-      operationId: DeleteUser
-      description: deletes a specific user
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: User
-          description: new user to add
-          schema:
-            $ref: "#/definitions/User"
-        - name: ID
-          in: path
-          type: integer
-          required: true
-      responses:
-        201:
-          description: user is created
-        400:
-          description: invalid input, object invalid
-        409:
-          description: an existing item already exists
-    put:
-      tags:
-        - anyone
-      summary: updates a specific user
-      operationId: UpdateUser
-      description: updates a specific user
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: User
-          description: new user to add
-          schema:
-            $ref: "#/definitions/User"
-        - name: ID
-          in: path
-          type: integer
-          required: true
-      responses:
-        201:
-          description: user is created
-        400:
-          description: invalid input, object invalid
-        409:
-          description: an existing item already exists
-definitions:
-  User:
-    type: object
-    required:
-      - ID
-      - firstName
-      - lastName
-      - email
-      - job_cd
-      - password
-      - country
-      - alias
-      - aliasImg
-      - displayPref
-      - totalPomSeconds
-      - totalSmallBreakSeconds
-      - totalBigBreakSeconds
-      - pomTime
-      - smallBreakTime
-      - bigBreakTime
-
-    properties:
-      ID:
-        type: integer
-        format: number
-        example: 16
-      hr_loc_cd:
-        type: string
-        example: FXFGBO
-      dept_nbr:
-        type: string
-        example: 11005644
-      job_cd:
-        type: string
-        example: 61161
-      emp_first_name:
-        type: string
-        example: Michael
-      emp_last_nm:
-        type: string
-        example: Curtis
-      user_id_nbr:
-        type: string
-        example: 2466727
-      job_nm:
-        type: string
-        example: Wt Dim Validation Specialist
-
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /TomatoPals/vehicle_inspection_backend/1.0.0
-schemes:
-  - https
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryItem'
+        description: Inventory item to add
+components:
+  schemas:
+    InventoryItem:
+      type: object
+      required:
+        - id
+        - name
+        - manufacturer
+        - releaseDate
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Widget Adapter
+        releaseDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        manufacturer:
+          $ref: '#/components/schemas/Manufacturer'
+    Manufacturer:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ACME Corporation
+        homePage:
+          type: string
+          format: url
+          example: 'https://www.acme-corp.com'
+        phone:
+          type: string
+          example: 408-867-5309
+      type: object
