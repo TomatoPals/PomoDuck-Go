@@ -11,6 +11,7 @@ func Routes() *mux.Router {
 	r := mux.NewRouter()
 
 	AddUserHandler(r)
+	AddTasksHandler(r)
 
 	return r
 }
