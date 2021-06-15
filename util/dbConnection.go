@@ -25,5 +25,5 @@ func InitialMigration() {
 		fmt.Println(err.Error())
 		panic("Cannot connect to DB")
 	}
-	DB.AutoMigrate((&models.User{}))
+	DB.AutoMigrate(&models.User{}, &models.Tasks{})
 }

@@ -20,4 +20,5 @@ type User struct {
 	POM_TIME                  string `json:"pomTime"`
 	SMALL_BREAK_TIME          string `json:"smallBreakTime"`
 	BIG_BREAK_TIME            string `json:"bigBreakTime"`
+	Tasks                     []Tasks
 }

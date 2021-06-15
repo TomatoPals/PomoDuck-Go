@@ -6,7 +6,7 @@ import (
 
 type Tasks struct {
 	gorm.Model
-	USER_ID                string `json:"userId"`
+	USER_ID                uint
 	TASK_NAME              string `json:"taskName"`
 	ESTIMATED_POMS         string `json:"estimatedPoms"`
 	POM_SECONDS            string `json:"pomSeconds"`
