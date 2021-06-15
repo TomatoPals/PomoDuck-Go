@@ -144,14 +144,22 @@ definitions:
     type: object
     required:
       - ID
-      - emp_nbr
-      - hr_loc_cd
-      - dept_nbr
+      - firstName
+      - lastName
+      - email
       - job_cd
-      - emp_first_name
-      - emp_last_nm
-      - user_id_nbr
-      - job_nm
+      - password
+      - country
+      - alias
+      - aliasImg
+      - displayPref
+      - totalPomSeconds
+      - totalSmallBreakSeconds
+      - totalBigBreakSeconds
+      - pomTime
+      - smallBreakTime
+      - bigBreakTime
+
     properties:
       ID:
         type: integer
