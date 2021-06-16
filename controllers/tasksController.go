@@ -31,11 +31,12 @@ func GetTasks(w http.ResponseWriter, r *http.Request) {
 func CreateTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
+	var tasks models.Tasks
 	var user models.User
 	config.DB.First(&user, params["id"])
-	json.NewDecoder(r.Body).Decode(&user)
-	config.DB.Create(&user)
-	json.NewEncoder(w).Encode(user)
+	json.NewDecoder(r.Body).Decode(&tasks)
+	config.DB.Create(&tasks)
+	json.NewEncoder(w).Encode(tasks)
 }
 
 //updates a user by ID
