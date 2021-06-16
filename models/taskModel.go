@@ -14,7 +14,7 @@ type Tasks struct {
 	COMPLETED_POMS         string `gorm:"type:int; default: 0" json:"completedPoms"`
 	COMPLETED_SMALL_BREAKS string `gorm:"type:int; default: 0" json:"completedSmallBreaks"`
 	COMPLETED_BIG_BREAKS   string `gorm:"type:int; default: 0" json:"completedBigBreaks"`
-	IS_COMPLETE            string `gorm:"type:boolean; default: false" json:"isComplete"`
+	IS_COMPLETE            string `gorm:"type:boolean; " json:"isComplete"`
 	START_DATE             string `gorm:"type:date;" json:"startDate"`
 	COMPLETE_DATE          string `gorm:"type:date;" json:"completeDate"`
 }

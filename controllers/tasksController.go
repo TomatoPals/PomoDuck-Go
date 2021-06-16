@@ -30,7 +30,9 @@ func GetTasks(w http.ResponseWriter, r *http.Request) {
 //creates a user
 func CreateTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var user models.Tasks
+	params := mux.Vars(r)
+	var user models.User
+	config.DB.First(&user, params["id"])
 	json.NewDecoder(r.Body).Decode(&user)
 	config.DB.Create(&user)
 	json.NewEncoder(w).Encode(user)
